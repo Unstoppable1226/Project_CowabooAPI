@@ -1,5 +1,6 @@
 package com.example.pixa.medikit.Presentation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getInfo(){
-        String url = GETDISEASES;
+        String url = GETTAGS;
+        System.out.println(url);
         new GetFromUrl(this).execute(url);
     }
     @Override
@@ -108,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
