@@ -16,7 +16,7 @@ public class Disease {
     //private ArrayList<Symptom> symptom;
 
     public Disease(JSONObject json) throws JSONException {
-        name = json.getString(OBSERVATORY);
+        //name = json.getString(OBSERVATORY);
         //symptom = arrayList;
     }
 }
