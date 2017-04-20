@@ -9,10 +9,9 @@ public class NameWebService {
     public static final String URL_BASE = "http://groups.cowaboo.net/group11/public/api/";
 
     /* Commandes */
-    public static final String GETTAGS = URL_BASE + "tags";       /* Récupération de toutes les informations */
+    public static final String GETDISEASES = URL_BASE + "observatory?observatoryId=Maladies";       /* Récupération de toutes les informations */
 
     /* GetTags */
     public static final String VALUE = "entry";
-    public static final String OBSERVATORY = "observatory";
 
 }
