@@ -13,10 +13,43 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import static com.example.pixa.medikit.Data.NameWebService.*;
+
+import com.example.pixa.medikit.Business.Disease;
+import com.example.pixa.medikit.Data.GetFromUrl;
+import com.example.pixa.medikit.Data.GetFromUrl.Listener;
 import com.example.pixa.medikit.R;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener {
+
+    public class AllDiseases{
+        private ArrayList<Disease> lstDiseases = new ArrayList<>();
+        public AllDiseases(JSONObject json) throws JSONException{
+            System.out.println(json);
+        }
+    }
+
+    private void getInfo(){
+        String url = GETTAGS;
+        new GetFromUrl(this).execute(url);
+    }
+    @Override
+    public void onGetFromUrlResult (JSONObject json) {
+        AllDiseases ad = null;
+        try{ad = new AllDiseases(json);} catch (JSONException e) { System.out.println("Erreur"); return;}
+    } // onGetFromUrlResult
+
+    @Override
+    /* Listener de la tâche GetFromUrl: il y a eu une erreur */
+    public void onGetFromUrlError (Exception e) {
+        System.out.println("Erreur onGetFromUrlError " + e);
+    } // onGetFromUrlError
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +57,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -42,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getInfo();
     }
 
     @Override
