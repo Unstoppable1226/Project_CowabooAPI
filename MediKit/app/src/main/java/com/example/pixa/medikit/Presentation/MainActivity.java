@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getInfo(){
-        String url = GETTAGS;
+        String url = GETDISEASES;
         new GetFromUrl(this).execute(url);
     }
     @Override
