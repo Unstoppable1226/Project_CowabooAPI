@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void getInfo(){
         String url = GETTAGS;
+        System.out.println(url);
         new GetFromUrl(this).execute(url);
     }
     @Override
