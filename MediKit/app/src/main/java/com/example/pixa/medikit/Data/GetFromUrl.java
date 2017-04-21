@@ -3,6 +3,7 @@ package com.example.pixa.medikit.Data;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -23,9 +24,10 @@ public class GetFromUrl extends AsyncTask<String, Void, JSONObject> {
 
     private Exception exception = null; /* Exception qui s'est éventuellement produite dans doInBackground() */
     private Listener listener = null;   /* Listener (éventuel) chargé de traiter les résultats */
+    private int type = 0;
 
     /* Constructeur */
-    public GetFromUrl (Listener listener) {this.listener = listener;}
+    public GetFromUrl (Listener listener, int type) {this.listener = listener;this.type = type;}
 
     @Override
   /* Récupération de l'object JSON à partir de l'URL donné en paramètre sous forme d'un String */
@@ -46,7 +48,9 @@ public class GetFromUrl extends AsyncTask<String, Void, JSONObject> {
             }
             in.close();
             connection.disconnect();
-            return new JSONObject(result.toString());
+            JSONObject json = new JSONObject(result.toString());
+            json.accumulate("type", this.type);
+            return json;
         } catch (Exception e) {
             exception = e;
             return null;
