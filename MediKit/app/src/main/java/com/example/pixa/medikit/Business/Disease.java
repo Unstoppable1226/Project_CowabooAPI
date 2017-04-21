@@ -12,11 +12,40 @@ import static com.example.pixa.medikit.Data.NameWebService.*;
  */
 
 public class Disease {
-    private String name;
-    //private ArrayList<Symptom> symptom;
 
-    public Disease(JSONObject json) throws JSONException {
-        //name = json.getString(OBSERVATORY);
-        //symptom = arrayList;
+    private String name;
+    private SymptomList symptoms;
+    private TreatmentList treatments;
+
+    public Disease(String name){
+        this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SymptomList getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(SymptomList symptoms) {this.symptoms = symptoms;}
+
+    public TreatmentList getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(TreatmentList treatments) {
+        this.treatments = treatments;
+    }
+
+    public boolean equals(Object obj) {
+        return this.name.equals(((Disease)obj).getName());
+    }
+
+
 }

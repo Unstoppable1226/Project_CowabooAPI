@@ -17,6 +17,11 @@ import android.view.MenuItem;
 import static com.example.pixa.medikit.Data.NameWebService.*;
 
 import com.example.pixa.medikit.Business.Disease;
+import com.example.pixa.medikit.Business.DiseaseList;
+import com.example.pixa.medikit.Business.Symptom;
+import com.example.pixa.medikit.Business.SymptomList;
+import com.example.pixa.medikit.Business.Treatment;
+import com.example.pixa.medikit.Business.TreatmentList;
 import com.example.pixa.medikit.Data.GetFromUrl;
 import com.example.pixa.medikit.Data.GetFromUrl.Listener;
 import com.example.pixa.medikit.R;
@@ -26,25 +31,73 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener {
 
+    public static DiseaseList diseases;
+
+
     public class AllDiseases{
-        private ArrayList<Disease> lstDiseases = new ArrayList<>();
-        public AllDiseases(JSONObject json) throws JSONException{
+        public AllDiseases(JSONObject json, MainActivity main) throws JSONException{
             System.out.println(json);
+            diseases = new DiseaseList();
+            JSONObject list = json.getJSONObject("tag_list");
+            JSONObject dis = list.getJSONObject("list");
+            Iterator<String> iterator = dis.keys();
+
+            while (iterator.hasNext()) {
+                diseases.addDisease(new Disease(iterator.next()));
+            }
+
+            for (Disease d: diseases.getDiseases()) {
+                new GetFromUrl(main, 2).execute(GETSYMPTOMS + d.getName());
+            }
+        }
+    }
+
+    public class AddTreatmentsToDiseases{
+        public AddTreatmentsToDiseases(JSONObject json) throws JSONException{
+            JSONObject dict = json.getJSONObject(DICTIONARY);
+            String name = dict.getString(ID);
+            Disease d = diseases.getDisease(name);
+            if (d != null) {
+                JSONObject entries = dict.getJSONObject(ENTRIES);
+                Iterator<String> iterator = entries.keys();
+                SymptomList symptoms = new SymptomList();
+                TreatmentList treatments = new TreatmentList();
+                while (iterator.hasNext()) {
+                    String idEntry = iterator.next();
+                    JSONObject entry = entries.getJSONObject(idEntry);
+                    if (entry.getString(TAGS).equals(SYMPTOMS)) {
+                        symptoms.addSymptom(new Symptom(entry.getString(VALUE)));
+                    } else {
+                        System.out.println(new Treatment(entry.getString(VALUE)).getName());
+                        treatments.addTreatment(new Treatment(entry.getString(VALUE)));
+                    }
+                }
+
+                d.setSymptoms(symptoms);
+                d.setTreatments(treatments);
+            }
         }
     }
 
     private void getInfo(){
-        String url = GETDISEASES;
-        System.out.println(url);
-        new GetFromUrl(this).execute(url);
+        new GetFromUrl(this, 1).execute(GETDISEASES);
     }
     @Override
     public void onGetFromUrlResult (JSONObject json) {
-        AllDiseases ad = null;
-        try{ad = new AllDiseases(json);} catch (JSONException e) { System.out.println("Erreur"); return;}
+        try{
+            int type = json.getInt("type");
+            if (type == 1) {
+                new AllDiseases(json, this);
+            } else if (type == 2) {
+                new AddTreatmentsToDiseases(json);
+            } else {
+
+            }
+        } catch (JSONException e) { System.out.println("Erreur"); return;}
     } // onGetFromUrlResult
 
     @Override
@@ -109,18 +162,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_search) {
             Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_database) {
+            Intent intent = new Intent(getApplicationContext(),DataBaseActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_geolocation) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_share_exp) {
 
         }
 
