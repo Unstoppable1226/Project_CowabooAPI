@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Presentation.SearchActivity" />
+        <activity android:name=".Presentation.DataBaseActivity" />
     </application>
 
 </manifest>
