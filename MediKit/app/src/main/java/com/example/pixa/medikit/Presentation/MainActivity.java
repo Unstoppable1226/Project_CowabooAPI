@@ -170,7 +170,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_geolocation) {
 
         } else if (id == R.id.nav_share_exp) {
-
+            Intent intent = new Intent(getApplicationContext(), LoginScreenActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

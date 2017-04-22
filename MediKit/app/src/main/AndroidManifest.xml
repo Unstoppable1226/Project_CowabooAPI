@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".Presentation.SearchActivity" />
         <activity android:name=".Presentation.DataBaseActivity" />
+        <activity android:name=".Presentation.LoginScreenActivity" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
