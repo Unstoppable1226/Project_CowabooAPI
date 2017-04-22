@@ -10,10 +10,11 @@ import static com.example.pixa.medikit.Data.NameWebService.*;
  */
 
 public class Symptom {
+
     private String name;
 
-    public Symptom(JSONObject json) throws JSONException{
-        name = json.getString(VALUE);
+    public Symptom(String name){
+        this.name = name;
     }
 
     public String getName() {

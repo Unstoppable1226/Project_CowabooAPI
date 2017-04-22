@@ -6,41 +6,44 @@
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background">
 
-    <MultiAutoCompleteTextView
-        android:id="@+id/multiAutoCompleteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView3"
-        android:layout_alignParentEnd="true"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/symptomes"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:gravity="center_horizontal" />
+        android:layout_marginTop="14dp" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView3"
+        android:layout_marginTop="88dp"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Que ressentez-vous ?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="24sp" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/symptomes"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="17dp"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="94dp"
         android:layout_below="@+id/multiAutoCompleteTextView"
         android:layout_centerHorizontal="true" />
 
