@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import static com.example.pixa.medikit.Data.NameWebService.*;
 
@@ -11,7 +12,7 @@ import static com.example.pixa.medikit.Data.NameWebService.*;
  * Created by Pixa on 20.04.2017.
  */
 
-public class Disease {
+public class Disease implements Comparable<Disease>{
 
     private String name;
     private SymptomList symptoms;
@@ -47,6 +48,11 @@ public class Disease {
 
     public boolean equals(Object obj) {
         return this.name.equals(((Disease)obj).getName());
+    }
+
+    @Override
+    public int compareTo(Disease d){
+        return name.compareTo(d.name);
     }
 
 
