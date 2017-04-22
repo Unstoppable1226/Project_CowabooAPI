@@ -35,13 +35,12 @@ import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener {
 
-    public static DiseaseList diseases;
+    public static DiseaseList diseases = new DiseaseList();
 
 
     public class AllDiseases{
         public AllDiseases(JSONObject json, MainActivity main) throws JSONException{
             System.out.println(json);
-            diseases = new DiseaseList();
             JSONObject list = json.getJSONObject("tag_list");
             JSONObject dis = list.getJSONObject("list");
             Iterator<String> iterator = dis.keys();

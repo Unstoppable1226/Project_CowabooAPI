@@ -19,6 +19,8 @@ public class Disease {
 
     public Disease(String name){
         this.name = name;
+        symptoms = new SymptomList();
+        treatments = new TreatmentList();
     }
 
     public String getName() {
