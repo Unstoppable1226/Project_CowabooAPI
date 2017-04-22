@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <SearchView
+        android:id="@+id/sv_disease"
         android:layout_width="match_parent"
         android:layout_height="58dp" />
 
