@@ -1,7 +1,12 @@
 package com.example.pixa.medikit.Presentation;
 
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.example.pixa.medikit.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,9 +16,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import android.Manifest;
+
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback/*, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback */ {
 
     private GoogleMap mMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +53,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(geneva).title("Marker in Geneva"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(geneva));
     }
+
+
 }
