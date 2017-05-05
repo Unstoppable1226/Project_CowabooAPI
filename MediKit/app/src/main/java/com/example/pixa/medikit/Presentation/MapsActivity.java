@@ -70,8 +70,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         private int MAX_LENGTH;
 
-        private Position myPos;
-        private LatLng myPosDet;
+        private Position myPos = new Position("Me", 46.174817, 6.139748);
+        private LatLng myPosDet = new LatLng(46.174817, 6.139748);
         private ArrayList<Position> arrayPos = new ArrayList<>();
         private MenuItem itemSelected;
 
@@ -203,7 +203,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
                         Log.d("Map", "list size: " + list.size());
                         // Clears all the existing markers;
-                        mMap.clear();
+                        //mMap.clear(); PEUT ETRE A REMETTRE ////////////////////////////////////////////
 
                         for (int i = 0; i < list.size(); i++) {
 
@@ -241,6 +241,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                                 Marker m = mMap.addMarker(markerOptions);
 
                         }
+                        Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
+
                 }
         }
 
@@ -252,19 +254,11 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                         (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                 mapFragment.getMapAsync(this);
 
-
-                StringBuilder sbValue = new StringBuilder(sbMethod());
-                PlacesTask placesTask = new PlacesTask();
-                placesTask.execute(sbValue.toString());
-                /*System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
-                myPos = new Position("Me", 46.174817, 6.139748);
-                myPosDet = new LatLng(myPos.getLat(), myPos.getLng());
-                System.out.println(myPos.toString());
-                putMarker("Me", myPosDet);*/
         }
 
 
         private void lookForNearest(){
+                //Il faut régler pour trouver le plus proche
                 double resLat = 0;
                 double resLng = 0;
                 double resFinal = 0;
@@ -314,7 +308,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         }
 
         private void setMarkers(){
-                LatLng latlngHug = new LatLng(hug.getLat(), hug.getLng());
+
+                StringBuilder sbValue = new StringBuilder(sbMethod());
+                PlacesTask placesTask = new PlacesTask();
+                placesTask.execute(sbValue.toString());
+
+                /*LatLng latlngHug = new LatLng(hug.getLat(), hug.getLng());
                 LatLng latlngCctm = new LatLng(cctm.getLat(), cctm.getLng());
                 LatLng latlngCdr = new LatLng(cdr.getLat(), cdr.getLng());
                 LatLng latlngPdc = new LatLng(pdc.getLat(), pdc.getLng());
@@ -324,7 +323,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 putMarker(CCTM, latlngCctm);
                 putMarker(CDR, latlngCdr);
                 putMarker(PDC, latlngPdc);
-                //putMarker(TEST, latlngTest);
+                //putMarker(TEST, latlngTest);*/
         }
 
         @Override
