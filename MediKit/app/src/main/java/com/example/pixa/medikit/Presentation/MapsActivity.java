@@ -261,6 +261,11 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                         System.out.println("Error location");
                 }
 
+                //System.out.println(location.getLatitude());
+                //myPosDet = new LatLng(46.174817, 6.139748);
+                //myPos = new Position("My position",myPosDet.latitude,myPosDet.longitude);
+                //sI LOCATION = NULL ALORS REMETS CE CODE EN ACTIF ET CELUI QUI SUIT EN COMMENTAIRE, LANCE UNE FOIS, ET REMET LE BON CODE ET C'EST REGLE
+
                 myPosDet = new LatLng(location.getLatitude(), location.getLongitude());
                 myPos = new Position("My position",myPosDet.latitude,myPosDet.longitude);
 
