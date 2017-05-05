@@ -55,23 +55,13 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         /* Constants */
         private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-        private static final String HUG = "HUG";
-        private static final double HUG_LAT = 46.193597;
-        private static final double HUG_LNG = 6.14902;
-        private static final String CCTM = "Centre de Chirurgie et de Thérapie de la main";
-        private static final double CCTM_LAT = 46.200122;
-        private static final double CCTM_LNG = 6.138158;
-        private static final String CDR = "Centre de Dermatologie Rive";
-        private static final double CDR_LAT = 46.201643;
-        private static final double CDR_LNG = 6.152348;
-        private static final String PDC = "Permanence de Carouge";
-        private static final double PDC_LAT = 46.186498;
-        private static final double PDC_LNG = 6.142422;
 
         private int MAX_LENGTH;
 
         private Position myPos = new Position("Me", 46.174817, 6.139748);
         private LatLng myPosDet = new LatLng(46.174817, 6.139748);
+        private ArrayList<MarkerOptions> arrayMarker = new ArrayList<>();
+
         private ArrayList<Position> arrayPos = new ArrayList<>();
         private MenuItem itemSelected;
 
@@ -238,10 +228,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
 
                                 // Placing a marker on the touched position
+                                arrayMarker.add(markerOptions);
                                 Marker m = mMap.addMarker(markerOptions);
 
                         }
                         Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
+                        MAX_LENGTH = arrayMarker.size();
 
                 }
         }
@@ -256,74 +248,48 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         }
 
-
-        private void lookForNearest(){
-                //Il faut régler pour trouver le plus proche
+        private void fillRes(double[] tabRes){
+                int i = 0;
                 double resLat = 0;
                 double resLng = 0;
                 double resFinal = 0;
-                double[] tabRes = new double[MAX_LENGTH];
-                int i = 0;
-                double resBest = 100;
-                for(Position p : arrayPos){
-                        if((p.getLat() > 0 && p.getLng() > 0) || (p.getLat() < 0 && p.getLng() < 0)){
-                                resLat = p.getLat() - myPos.getLat();
-                                resLng = p.getLng() - myPos.getLng();
+                for(MarkerOptions m : arrayMarker){
+                        if((m.getPosition().latitude > 0 && myPos.getLat() > 0) || (myPos.getLng() < 0 && m.getPosition().longitude < 0)){
+                                resLat = m.getPosition().latitude - myPos.getLat();
+                                resLng = m.getPosition().longitude - myPos.getLng();
                         } else {
-                                resLat = p.getLat() + myPos.getLat();
-                                resLng = p.getLng() + myPos.getLng();
+                                resLat = m.getPosition().latitude + myPos.getLat();
+                                resLng = m.getPosition().longitude + myPos.getLng();
                         }
                         resFinal = resLat + resLng;
                         tabRes[i++] = resFinal;
-                        System.out.println(resFinal + " " + p.getName());
                 }
-                i = 0;
-                for(double d : tabRes){
-                        if(resBest > d){
-                                resBest = d;
-                                i++;
-                        }
-                }
-                System.out.println(resBest + " " + arrayPos.get(i));
-                LatLng latLng = new LatLng(arrayPos.get(i).getLat(), arrayPos.get(i).getLng());
-                putMarker(arrayPos.get(i).getName(), latLng);
-
-
         }
 
-        private void setPositions(){
-                hug = new Position(HUG, HUG_LAT, HUG_LNG);
-                cctm = new Position(CCTM, CCTM_LAT, CCTM_LNG);
-                cdr = new Position(CDR, CDR_LAT, CDR_LNG);
-                pdc = new Position(PDC, PDC_LAT, PDC_LNG);
-                //test = new Position(TEST, TEST_LAT, TEST_LNG);
+        private int findTheNearest(double[] tabRes){
+                int ind = 0;
+                double resBest = Math.abs(tabRes[0]);
+                for(int k = 0; k < tabRes.length; k++){
+                        System.out.println(resBest + " " + tabRes[k]);
+                        if(resBest > Math.abs(tabRes[k])){
+                                resBest = tabRes[k];
+                                ind = k;
+                        }
+                }
+                return ind;
+        }
 
-                arrayPos.add(hug);
-                arrayPos.add(cctm);
-                arrayPos.add(cdr);
-                arrayPos.add(pdc);
-                //arrayPos.add(test);
-
-                MAX_LENGTH = arrayPos.size();
+        private void lookForNearest(){
+                double[] tabRes = new double[MAX_LENGTH];
+                fillRes(tabRes);
+                int ind = findTheNearest(tabRes);
+                putMarker(arrayMarker.get(ind).getTitle(), arrayMarker.get(ind).getPosition());
         }
 
         private void setMarkers(){
-
                 StringBuilder sbValue = new StringBuilder(sbMethod());
                 PlacesTask placesTask = new PlacesTask();
                 placesTask.execute(sbValue.toString());
-
-                /*LatLng latlngHug = new LatLng(hug.getLat(), hug.getLng());
-                LatLng latlngCctm = new LatLng(cctm.getLat(), cctm.getLng());
-                LatLng latlngCdr = new LatLng(cdr.getLat(), cdr.getLng());
-                LatLng latlngPdc = new LatLng(pdc.getLat(), pdc.getLng());
-                //LatLng latlngTest = new LatLng(test.getLat(), test.getLng());
-
-                putMarker(HUG,latlngHug);
-                putMarker(CCTM, latlngCctm);
-                putMarker(CDR, latlngCdr);
-                putMarker(PDC, latlngPdc);
-                //putMarker(TEST, latlngTest);*/
         }
 
         @Override
@@ -337,7 +303,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 enableMyLocation();
                 LatLng myPosDet = new LatLng(myPos.getLat(), myPos.getLng());
                 putMarker("Ma position", myPosDet);
-                setPositions();
 
         }
 
@@ -416,11 +381,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap.clear();
                 putMarker("Ma position", myPosDet);
                 if(itemSelected.toString().equals(getString(R.string.action_find_nearest))){
-                        System.out.println("find nearest");
                         lookForNearest();
 
                 } else if(itemSelected.toString().equals(getString(R.string.action_find_all))){
-                        System.out.println("find all");
                         setMarkers();
                 }
                 return false;
