@@ -2,6 +2,9 @@ package com.example.pixa.medikit.Presentation;
 
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -58,8 +61,15 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         private int MAX_LENGTH;
 
-        private Position myPos = new Position("Me", 46.174817, 6.139748);
-        private LatLng myPosDet = new LatLng(46.174817, 6.139748);
+        /*Lat, Long
+        Thaïland : 18.796143, 98.979263;
+        San Francisco : 37.773972, -122.431297;
+        Sydney : -33.865143, 151.209900;
+         */
+
+        //LatLng cameraFocus = new LatLng(46.204391, 6.143158);
+        private Position myPos;
+        private LatLng myPosDet;// = new LatLng(46.174817, 6.139748);
         private ArrayList<MarkerOptions> arrayMarker = new ArrayList<>();
 
         private MenuItem itemSelected;
@@ -220,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                                 Marker m = mMap.addMarker(markerOptions);
 
                         }
-                        Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
+                        //Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
                         MAX_LENGTH = arrayMarker.size();
 
                 }
@@ -233,6 +243,26 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 SupportMapFragment mapFragment =
                         (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                 mapFragment.getMapAsync(this);
+
+                // Getting LocationManager object from System Service LOCATION_SERVICE
+                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+                // Creating a criteria object to retrieve provider
+                Criteria criteria = new Criteria();
+
+                // Getting the name of the best provider
+                String provider = locationManager.getBestProvider(criteria, true);
+
+                // Getting Current Location
+                Location location = null;
+                try {
+                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                } catch (SecurityException e) {
+                        System.out.println("Error location");
+                }
+
+                myPosDet = new LatLng(location.getLatitude(), location.getLongitude());
+                myPos = new Position("My position",myPosDet.latitude,myPosDet.longitude);
 
         }
 
@@ -259,7 +289,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 double resBest = Math.abs(tabRes[0]);
                 for(int k = 0; k < tabRes.length; k++){
                         System.out.println(resBest + " " + tabRes[k]);
-                        if(resBest > Math.abs(tabRes[k])){
+                        if(Math.abs(resBest) > Math.abs(tabRes[k])){
                                 resBest = tabRes[k];
                                 ind = k;
                         }
@@ -285,11 +315,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap = map;
 
                 mMap.setOnMyLocationButtonClickListener(this);
-                LatLng geneva = new LatLng(46.204391, 6.143158);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geneva, 13));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosDet, 13));
 
                 enableMyLocation();
-                putMarker("Ma position", myPosDet);
+                putMarker("My position", myPosDet);
 
         }
 
