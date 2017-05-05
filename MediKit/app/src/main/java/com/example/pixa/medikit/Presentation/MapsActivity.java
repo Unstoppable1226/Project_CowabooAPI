@@ -345,7 +345,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         @Override
         public boolean onMyLocationButtonClick() {
-                Toast.makeText(this, String.valueOf(mMap.getMyLocation()), Toast.LENGTH_SHORT).show(); //Normalement ca devrait donner ma position en temps réel
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosDet));
+                //Toast.makeText(this, String.valueOf(mMap.getMyLocation()), Toast.LENGTH_SHORT).show(); //Normalement ca devrait donner ma position en temps réel
                 // Return false so that we don't consume the event and the default behavior still occurs
                 // (the camera animates to the user's current position).
                 return false;
