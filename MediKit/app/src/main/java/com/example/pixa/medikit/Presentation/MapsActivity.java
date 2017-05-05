@@ -230,7 +230,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                                 Marker m = mMap.addMarker(markerOptions);
 
                         }
-                        Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
+                        //Marker me = mMap.addMarker(new MarkerOptions().position(myPosDet).title("ME"));
                         MAX_LENGTH = arrayMarker.size();
 
                 }
