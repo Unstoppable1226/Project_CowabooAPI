@@ -67,7 +67,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         Sydney : -33.865143, 151.209900;
          */
 
-        LatLng cameraFocus = new LatLng(46.204391, 6.143158);
+        //LatLng cameraFocus = new LatLng(46.204391, 6.143158);
         private Position myPos;
         private LatLng myPosDet;// = new LatLng(46.174817, 6.139748);
         private ArrayList<MarkerOptions> arrayMarker = new ArrayList<>();
@@ -315,7 +315,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap = map;
 
                 mMap.setOnMyLocationButtonClickListener(this);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraFocus, 13));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosDet, 13));
 
                 enableMyLocation();
                 putMarker("My position", myPosDet);
