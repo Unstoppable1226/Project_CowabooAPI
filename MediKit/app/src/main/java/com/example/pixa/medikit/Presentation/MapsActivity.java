@@ -58,6 +58,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         private int MAX_LENGTH;
 
+        LatLng cameraFocus = new LatLng(46.204391, 6.143158);
         private Position myPos = new Position("Me", 46.174817, 6.139748);
         private LatLng myPosDet = new LatLng(46.174817, 6.139748);
         private ArrayList<MarkerOptions> arrayMarker = new ArrayList<>();
@@ -259,7 +260,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 double resBest = Math.abs(tabRes[0]);
                 for(int k = 0; k < tabRes.length; k++){
                         System.out.println(resBest + " " + tabRes[k]);
-                        if(resBest > Math.abs(tabRes[k])){
+                        if(Math.abs(resBest) > Math.abs(tabRes[k])){
                                 resBest = tabRes[k];
                                 ind = k;
                         }
@@ -285,8 +286,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap = map;
 
                 mMap.setOnMyLocationButtonClickListener(this);
-                LatLng geneva = new LatLng(46.204391, 6.143158);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geneva, 13));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cameraFocus, 13));
 
                 enableMyLocation();
                 putMarker("Ma position", myPosDet);
