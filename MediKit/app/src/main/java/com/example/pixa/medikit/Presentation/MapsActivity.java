@@ -2,18 +2,21 @@ package com.example.pixa.medikit.Presentation;
 
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.pixa.medikit.Business.PermissionUtils;
+import com.example.pixa.medikit.Business.Place_JSON;
 import com.example.pixa.medikit.Business.Position;
 import com.example.pixa.medikit.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,13 +24,25 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener, OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -80,6 +95,155 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         private GoogleMap mMap;
 
+        public StringBuilder sbMethod() {
+
+                //use your current location here
+
+                StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                sb.append("location=" + myPos.getLat() + "," + myPos.getLng());
+                sb.append("&radius=5000");
+                sb.append("&types=" + "hospital");
+                sb.append("&sensor=true");
+                sb.append("&key=AIzaSyBHGDyzUIn1MJfLg3vOEF88V8Q69ZMLoEQ");
+
+                Log.d("Map", "api: " + sb.toString());
+
+                return sb;
+        }
+
+        private class PlacesTask extends AsyncTask<String, Integer, String> {
+
+                String data = null;
+
+                // Invoked by execute() method of this object
+                @Override
+                protected String doInBackground(String... url) {
+                        try {
+                                data = downloadUrl(url[0]);
+                        } catch (Exception e) {
+                                Log.d("Background Task", e.toString());
+                        }
+                        return data;
+                }
+
+                // Executed after the complete execution of doInBackground() method
+                @Override
+                protected void onPostExecute(String result) {
+                        ParserTask parserTask = new ParserTask();
+
+                        // Start parsing the Google places in JSON format
+                        // Invokes the "doInBackground()" method of the class ParserTask
+                        parserTask.execute(result);
+                }
+        }
+
+        private String downloadUrl(String strUrl) throws IOException {
+                String data = "";
+                InputStream iStream = null;
+                HttpURLConnection urlConnection = null;
+                try {
+                        URL url = new URL(strUrl);
+
+                        // Creating an http connection to communicate with url
+                        urlConnection = (HttpURLConnection) url.openConnection();
+
+                        // Connecting to url
+                        urlConnection.connect();
+
+                        // Reading data from url
+                        iStream = urlConnection.getInputStream();
+
+                        BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+                        StringBuffer sb = new StringBuffer();
+
+                        String line = "";
+                        while ((line = br.readLine()) != null) {
+                                sb.append(line);
+                        }
+
+                        data = sb.toString();
+
+                        br.close();
+
+                } catch (Exception e) {
+                        Log.d("Exception while downloading url", e.toString());
+                } finally {
+                        iStream.close();
+                        urlConnection.disconnect();
+                }
+                return data;
+        }
+
+        private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+
+                JSONObject jObject;
+
+                // Invoked by execute() method of this object
+                @Override
+                protected List<HashMap<String, String>> doInBackground(String... jsonData) {
+
+                        List<HashMap<String, String>> places = null;
+                        Place_JSON placeJson = new Place_JSON();
+
+                        try {
+                                jObject = new JSONObject(jsonData[0]);
+
+                                places = placeJson.parse(jObject);
+
+                        } catch (Exception e) {
+                                Log.d("Exception", e.toString());
+                        }
+                        return places;
+                }
+
+                // Executed after the complete execution of doInBackground() method
+                @Override
+                protected void onPostExecute(List<HashMap<String, String>> list) {
+
+                        Log.d("Map", "list size: " + list.size());
+                        // Clears all the existing markers;
+                        mMap.clear();
+
+                        for (int i = 0; i < list.size(); i++) {
+
+                                // Creating a marker
+                                MarkerOptions markerOptions = new MarkerOptions();
+
+                                // Getting a place from the places list
+                                HashMap<String, String> hmPlace = list.get(i);
+
+
+                                // Getting latitude of the place
+                                double lat = Double.parseDouble(hmPlace.get("lat"));
+
+                                // Getting longitude of the place
+                                double lng = Double.parseDouble(hmPlace.get("lng"));
+
+                                // Getting name
+                                String name = hmPlace.get("place_name");
+
+                                Log.d("Map", "place: " + name);
+
+                                // Getting vicinity
+                                String vicinity = hmPlace.get("vicinity");
+
+                                LatLng latLng = new LatLng(lat, lng);
+
+                                // Setting the position for the marker
+                                markerOptions.position(latLng);
+
+                                markerOptions.title(name + " : " + vicinity);
+
+                                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+
+                                // Placing a marker on the touched position
+                                Marker m = mMap.addMarker(markerOptions);
+
+                        }
+                }
+        }
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -87,8 +251,16 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 SupportMapFragment mapFragment =
                         (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                 mapFragment.getMapAsync(this);
+
+
+                StringBuilder sbValue = new StringBuilder(sbMethod());
+                PlacesTask placesTask = new PlacesTask();
+                placesTask.execute(sbValue.toString());
+                /*System.out.println("XXXXXXXXXXXXXXXXXXXXXXXX");
                 myPos = new Position("Me", 46.174817, 6.139748);
                 myPosDet = new LatLng(myPos.getLat(), myPos.getLng());
+                System.out.println(myPos.toString());
+                putMarker("Me", myPosDet);*/
         }
 
 
@@ -121,6 +293,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 System.out.println(resBest + " " + arrayPos.get(i));
                 LatLng latLng = new LatLng(arrayPos.get(i).getLat(), arrayPos.get(i).getLng());
                 putMarker(arrayPos.get(i).getName(), latLng);
+
 
         }
 
