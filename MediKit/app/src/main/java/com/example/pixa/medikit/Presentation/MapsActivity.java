@@ -1,11 +1,7 @@
 package com.example.pixa.medikit.Presentation;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Address;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -61,9 +57,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
         private int MAX_LENGTH;
-
-
-        private LocationListener locationListener;
 
         private Position myPos = new Position("Me", 46.174817, 6.139748);
         private LatLng myPosDet = new LatLng(46.174817, 6.139748);
@@ -243,13 +236,13 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
 
         }
 
-        private void fillRes(double[] tabRes) {
+        private void fillRes(double[] tabRes){
                 int i = 0;
                 double resLat = 0;
                 double resLng = 0;
                 double resFinal = 0;
-                for (MarkerOptions m : arrayMarker) {
-                        if ((m.getPosition().latitude > 0 && myPos.getLat() > 0) || (myPos.getLng() < 0 && m.getPosition().longitude < 0)) {
+                for(MarkerOptions m : arrayMarker){
+                        if((m.getPosition().latitude > 0 && myPos.getLat() > 0) || (myPos.getLng() < 0 && m.getPosition().longitude < 0)){
                                 resLat = m.getPosition().latitude - myPos.getLat();
                                 resLng = m.getPosition().longitude - myPos.getLng();
                         } else {
@@ -261,12 +254,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 }
         }
 
-        private int findTheNearest(double[] tabRes) {
+        private int findTheNearest(double[] tabRes){
                 int ind = 0;
                 double resBest = Math.abs(tabRes[0]);
-                for (int k = 0; k < tabRes.length; k++) {
+                for(int k = 0; k < tabRes.length; k++){
                         System.out.println(resBest + " " + tabRes[k]);
-                        if (resBest > Math.abs(tabRes[k])) {
+                        if(resBest > Math.abs(tabRes[k])){
                                 resBest = tabRes[k];
                                 ind = k;
                         }
@@ -274,14 +267,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 return ind;
         }
 
-        private void lookForNearest() {
+        private void lookForNearest(){
                 double[] tabRes = new double[MAX_LENGTH];
                 fillRes(tabRes);
                 int ind = findTheNearest(tabRes);
                 putMarker(arrayMarker.get(ind).getTitle(), arrayMarker.get(ind).getPosition());
         }
 
-        private void setMarkers() {
+        private void setMarkers(){
                 StringBuilder sbValue = new StringBuilder(sbMethod());
                 PlacesTask placesTask = new PlacesTask();
                 placesTask.execute(sbValue.toString());
@@ -317,24 +310,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                                 Manifest.permission.ACCESS_FINE_LOCATION, true);
                 } else if (mMap != null) {
                         // Access to the location has been granted to the app.
-                        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        locationListener = new LocationListener() {
-                                @Override
-                                public void onLocationChanged(Location location) {
-                                        myPosDet = new LatLng(location.getLatitude(), location.getLongitude());
-                                }
-
-                                @Override
-                                public void onStatusChanged(String provider, int status, Bundle extras) {   }
-
-                                @Override
-                                public void onProviderEnabled(String provider) { }
-
-                                @Override
-                                public void onProviderDisabled(String provider) {}
-                        };
-                        locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
-
                         mMap.setMyLocationEnabled(true);
                 }
         }
