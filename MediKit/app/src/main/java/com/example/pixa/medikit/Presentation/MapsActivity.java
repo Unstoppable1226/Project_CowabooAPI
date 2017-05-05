@@ -62,20 +62,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
         private LatLng myPosDet = new LatLng(46.174817, 6.139748);
         private ArrayList<MarkerOptions> arrayMarker = new ArrayList<>();
 
-        private ArrayList<Position> arrayPos = new ArrayList<>();
         private MenuItem itemSelected;
 
-        /*Default position*/
-        private Position hug;
-        private Position cctm;
-        private Position cdr;
-        private Position pdc;
-
-
-        /*private Position test;
-        private static final String TEST = "Test";
-        private static final double TEST_LAT = 46.17983;
-        private static final double TEST_LNG = 6.138825;*/
 
         /**
          * Flag indicating whether a requested permission has been denied after returning in
@@ -301,7 +289,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(geneva, 13));
 
                 enableMyLocation();
-                LatLng myPosDet = new LatLng(myPos.getLat(), myPos.getLng());
                 putMarker("Ma position", myPosDet);
 
         }
