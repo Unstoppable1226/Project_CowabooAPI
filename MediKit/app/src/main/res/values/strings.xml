@@ -14,4 +14,11 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyBHGDyzUIn1MJfLg3vOEF88V8Q69ZMLoEQ
     </string> <!-- Clé API Google Maps -->
+    <string name="symptoms">Symptoms</string>
+    <string name="treatments">Treatments</string>
+    <item name="title" type="id">Title</item>
+    <item name="symptoms" type="id">Symptoms</item>
+    <item name="treatments" type="id">Treatments</item>
+    <item name="etSymptoms" type="id">etSymptoms</item>
+    <item name="etTreatments" type="id">etTreatments</item>
 </resources>

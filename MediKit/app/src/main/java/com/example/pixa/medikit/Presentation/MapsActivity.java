@@ -323,7 +323,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosDet, 13));
 
                 enableMyLocation();
-                putMarker("My position", myPosDet);
+                //putMarker("My position", myPosDet);
 
         }
 
@@ -401,7 +401,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMyLoc
                 itemSelected = item;
                 item.setEnabled(false);
                 mMap.clear();
-                putMarker("Ma position", myPosDet);
+                //putMarker("Ma position", myPosDet);
                 if(itemSelected.toString().equals(getString(R.string.action_find_nearest))){
                         lookForNearest();
 
