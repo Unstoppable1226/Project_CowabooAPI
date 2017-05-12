@@ -44,6 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Presentation.DiseaseSelectedActivity"/>
         <activity android:name=".Presentation.SearchActivity" />
         <activity android:name=".Presentation.DataBaseActivity" />
         <activity android:name=".Presentation.LoginScreenActivity" android:theme="@style/AppTheme.NoActionBar"/>
