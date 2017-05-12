@@ -7,7 +7,6 @@ import android.widget.SimpleAdapter;
 import com.example.pixa.medikit.Business.Disease;
 import com.example.pixa.medikit.Business.Symptom;
 import com.example.pixa.medikit.Business.Treatment;
-import com.example.pixa.medikit.Presentation.MainActivity;
 import com.example.pixa.medikit.R;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
 public class ListDiseases {
     private static final String REF_DISEASE = "Ref Disease";
     private static final String[] FROM = {"icon", "nameDisease", "valueSymptoms", "valueTreatments"};
-    private static final int[] TO = {R.id.img_icon, R.id.tv_disease, R.id.tv_symptoms, R.id.tv_treatments};
+    private static final int[] TO = {R.id.img_icon, R.id.tv_disease, R.id.symptoms, R.id.tv_treatments};
 
     private List<HashMap<String, Object>> dataTout;
     private SimpleAdapter adapter;
