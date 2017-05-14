@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -28,7 +29,8 @@ public class DiseaseSelectedActivity extends AppCompatActivity{
     private Data data;
 
     /*Variables*/
-    private TextView tvTitle, tvSymptoms, tvSymptomsDet, tvTreatmentsDet, tvTreatments;
+    private TextView tvTitle, tvSymptoms, tvSymptomsDet, tvTreatmentsDet, tvTreatments, tvSatisfaction;
+    private Button btnNo, btnYes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,9 @@ public class DiseaseSelectedActivity extends AppCompatActivity{
         tvTreatments = (TextView)findViewById(R.id.treatments);
         tvSymptomsDet = (TextView)findViewById(R.id.symptDet);
         tvTreatmentsDet = (TextView)findViewById(R.id.treatDet);
+        tvSatisfaction = (TextView)findViewById(R.id.tv_satisf);
+        btnNo = (Button)findViewById(R.id.btnNo);
+        btnYes = (Button)findViewById(R.id.btnYes);
     }
 
     private void showInfo(){
@@ -54,6 +59,7 @@ public class DiseaseSelectedActivity extends AppCompatActivity{
         showSymptoms();
         showTreatments();
         tvTreatments.setText(getString(R.string.treatments));
+        tvSatisfaction.setText("Are you satisfied with your research?");
     }
 
     private void showSymptoms(){
