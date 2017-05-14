@@ -11,48 +11,45 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="51dp"
-        android:text="Title" />
-
-    <EditText
-        android:id="@+id/etSymptoms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        android:layout_marginEnd="18dp"
-        android:layout_below="@+id/title"
-        android:layout_alignParentEnd="true" />
+        android:text="Title"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/symptoms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/etSymptoms"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="7dp"
-        android:layout_marginStart="20dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_marginEnd="44dp"
+        android:layout_below="@+id/title"
+        android:layout_toStartOf="@+id/title"
+        android:layout_marginTop="98dp" />
 
     <TextView
         android:id="@+id/treatments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:layout_marginTop="103dp"
         android:layout_below="@+id/symptoms"
-        android:layout_alignStart="@+id/symptoms"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="55dp" />
+        android:layout_alignStart="@+id/symptoms" />
 
-    <EditText
-        android:id="@+id/etTreatments"
+    <TextView
+        android:id="@+id/symptDet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/symptoms"
+        android:layout_alignBottom="@+id/symptoms"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginStart="35dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/treatDet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/treatments"
         android:layout_alignBottom="@+id/treatments"
-        android:layout_alignStart="@+id/etSymptoms"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:layout_alignStart="@+id/symptDet"
+        android:text="TextView" />
+
 </RelativeLayout>
