@@ -28,7 +28,7 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/tv_symptoms"
+        android:id="@+id/symptoms"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
@@ -58,7 +58,7 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/symptoms"
         android:layout_below="@+id/tv_disease"
-        android:layout_alignEnd="@+id/tv_symptoms"
+        android:layout_alignEnd="@+id/symptoms"
         android:layout_marginEnd="64dp" />
 
     <ImageView
@@ -79,7 +79,7 @@
         android:textSize="12sp"
         android:layout_alignBaseline="@+id/textView5"
         android:layout_alignBottom="@+id/textView5"
-        android:layout_alignEnd="@+id/tv_symptoms"
+        android:layout_alignEnd="@+id/symptoms"
         android:layout_marginEnd="42dp" />
 
     <TextView
