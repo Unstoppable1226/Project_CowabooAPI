@@ -24,5 +24,6 @@ public class NameWebService {
 
     public static final String SYMPTOMS = "||Symptômes||";
     public static final String TREATMENTS = "||Traitements||";
+    public static final String TYPE = "||Type||";
 
 }

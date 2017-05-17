@@ -22,6 +22,8 @@ import com.example.pixa.medikit.Business.Symptom;
 import com.example.pixa.medikit.Business.SymptomList;
 import com.example.pixa.medikit.Business.Treatment;
 import com.example.pixa.medikit.Business.TreatmentList;
+import com.example.pixa.medikit.Business.Type;
+import com.example.pixa.medikit.Business.TypeList;
 import com.example.pixa.medikit.Data.GetFromUrl;
 import com.example.pixa.medikit.Data.GetFromUrl.Listener;
 import com.example.pixa.medikit.R;
@@ -65,19 +67,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Iterator<String> iterator = entries.keys();
                 SymptomList symptoms = new SymptomList();
                 TreatmentList treatments = new TreatmentList();
+                TypeList types = new TypeList();
                 while (iterator.hasNext()) {
                     String idEntry = iterator.next();
                     JSONObject entry = entries.getJSONObject(idEntry);
                     if (entry.getString(TAGS).equals(SYMPTOMS)) {
-                        symptoms.addSymptom(new Symptom(entry.getString(VALUE)));
-                    } else {
-                        System.out.println(new Treatment(entry.getString(VALUE)).getName());
-                        treatments.addTreatment(new Treatment(entry.getString(VALUE)));
+                        String[] sympTab = entry.getString(VALUE).split("\\|");
+                        for (String nom: sympTab) {
+                            symptoms.addSymptom(new Symptom(nom));
+                        }
+                    } else if (entry.getString(TAGS).equals(TREATMENTS)) {
+                        String[] treatsTab = entry.getString(VALUE).split("\\|");
+                        for (String nom: treatsTab) {
+                            treatments.addTreatment(new Treatment(nom));
+                        }
+                    } else if (entry.getString(TAGS).equals(TYPE)) {
+                        String[] typeTab = entry.getString(VALUE).split("\\|");
+                        System.out.println(entry.getString(VALUE));
+                        for (String nom: typeTab) {
+                            System.out.println("Type : " + nom);
+                            types.addType(new Type(nom));
+                        }
+
                     }
                 }
 
                 d.setSymptoms(symptoms);
                 d.setTreatments(treatments);
+                d.setTypes(types);
             }
         }
     }
