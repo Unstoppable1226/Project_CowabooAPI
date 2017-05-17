@@ -18,10 +18,13 @@ public class Disease implements Comparable<Disease>{
     private SymptomList symptoms;
     private TreatmentList treatments;
 
+    private TypeList types;
+
     public Disease(String name){
         this.name = name;
         symptoms = new SymptomList();
         treatments = new TreatmentList();
+        types = new TypeList();
     }
 
     public String getName() {
@@ -45,6 +48,10 @@ public class Disease implements Comparable<Disease>{
     public void setTreatments(TreatmentList treatments) {
         this.treatments = treatments;
     }
+
+    public TypeList getTypes() {return types;}
+
+    public void setTypes(TypeList types) {this.types = types;}
 
     public boolean equals(Object obj) {
         return this.name.equals(((Disease)obj).getName());
