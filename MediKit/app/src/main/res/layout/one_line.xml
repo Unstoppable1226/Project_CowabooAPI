@@ -5,6 +5,28 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/imgRespiratoires"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_disease"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/img_icon"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/type_respiratoire" />
+
+    <ImageView
+        android:id="@+id/imgCoeur"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="13dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/type_coeur"
+        android:layout_below="@+id/tv_disease"
+        android:layout_toEndOf="@+id/imgRespiratoires" />
+
+    <ImageView
         android:id="@+id/img_icon"
         android:layout_width="60dp"
         android:layout_height="70dp"
@@ -27,70 +49,45 @@
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="30sp" />
 
-    <TextView
-        android:id="@+id/symptoms"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingTop="2dp"
-        android:singleLine="false"
-        android:text="TextView"
-        android:textAlignment="textStart"
-        android:layout_alignBaseline="@+id/tv_treatments"
-        android:layout_alignBottom="@+id/tv_treatments"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/tv_treatments"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="viewStart"
-        android:layout_below="@+id/imageView6"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="31dp" />
-
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/imgIntestinales"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="14dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/symptoms"
+        app:srcCompat="@drawable/type_intestinales"
         android:layout_below="@+id/tv_disease"
-        android:layout_alignEnd="@+id/symptoms"
-        android:layout_marginEnd="64dp" />
+        android:layout_toEndOf="@+id/imgDermatologiques" />
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@drawable/treatments"
-        android:layout_marginStart="58dp"
+        android:id="@+id/imgDermatologiques"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/type_dermatologique"
         android:layout_below="@+id/tv_disease"
-        android:layout_alignStart="@+id/tv_treatments" />
+        android:layout_toEndOf="@+id/imgCoeur" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Symptômes"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="12sp"
-        android:layout_alignBaseline="@+id/textView5"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_alignEnd="@+id/symptoms"
-        android:layout_marginEnd="42dp" />
+    <ImageView
+        android:id="@+id/imgMusculaires"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        app:srcCompat="@drawable/type_musculaires"
+        android:layout_below="@+id/tv_disease"
+        android:layout_toEndOf="@+id/imgIntestinales" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tv_treatments"
-        android:layout_below="@+id/imageView6"
-        android:layout_marginStart="31dp"
-        android:text="Traitements"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textSize="12sp" />
+    <ImageView
+        android:id="@+id/imgCerveau"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_disease"
+        android:layout_marginStart="19dp"
+        android:layout_toEndOf="@+id/imgMusculaires"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/type_cerveau" />
 
 </RelativeLayout>

@@ -4,7 +4,10 @@ import android.os.Bundle;
 
 import com.example.pixa.medikit.Business.Data;
 import com.example.pixa.medikit.Business.Symptom;
+import com.example.pixa.medikit.Business.SymptomList;
 import com.example.pixa.medikit.Business.Treatment;
+import com.example.pixa.medikit.Business.TreatmentList;
+import com.example.pixa.medikit.Business.Type;
 import com.example.pixa.medikit.R;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -58,17 +62,59 @@ public class DiseaseSelectedActivity extends AppCompatActivity{
         tvSymptoms.setText(getString(R.string.symptoms));
         showSymptoms();
         showTreatments();
-        tvTreatments.setText(getString(R.string.treatments));
+        tvSymptoms.setText("Symptômes");
+        tvTreatments.setText("Traitements");
         tvSatisfaction.setText("Are you satisfied with your research?");
+
+        int i = 0;
+        for (Type type : data.getActualDisease().getTypes().getTypes()) {
+            int idImage = 0;
+            switch (i) {
+                case 0:
+                    idImage =  R.id.imgDetails0;
+
+                    break;
+                case 1:
+                    idImage =  R.id.imgDetails1;
+                    break;
+                case 2:
+                    idImage =  R.id.imgDetails2;
+                    break;
+                case 3:
+                    idImage =  R.id.imgDetails3;
+                    break;
+                case 4:
+                    idImage =  R.id.imgDetails4;
+                    break;
+                case 5:
+                    idImage =  R.id.imgDetails5;
+                    break;
+            }
+            i++;
+            ImageView img = (ImageView) findViewById(idImage);
+            img.setVisibility(View.VISIBLE);
+            img.setImageDrawable(getDrawable(type.getImage(type.getType())));
+        }
     }
 
     private void showSymptoms(){
-        Symptom symp = data.getActualDisease().getSymptoms().getSymptoms().iterator().next();
-        tvSymptomsDet.setText(symp.getName());
+        StringBuilder str = new StringBuilder();
+
+        SymptomList symptoms = data.getActualDisease().getSymptoms();
+        for (Symptom symp: symptoms.getSymptoms()) {
+            str.append(" - " + symp.getName() + "\n");
+        }
+        tvSymptomsDet.setText(str.toString());
     }
 
     private void showTreatments(){
-        Treatment treat = data.getActualDisease().getTreatments().getTreatments().iterator().next();
-        tvTreatmentsDet.setText(treat.getName());
+
+        StringBuilder str = new StringBuilder();
+
+        TreatmentList treatments = data.getActualDisease().getTreatments();
+        for (Treatment treat: treatments.getTreatments()) {
+            str.append(" - " + treat.getName() + "\n");
+        }
+        tvTreatmentsDet.setText(str.toString());
     }
 }

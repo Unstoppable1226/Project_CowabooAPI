@@ -7,6 +7,8 @@ import android.widget.SimpleAdapter;
 import com.example.pixa.medikit.Business.Disease;
 import com.example.pixa.medikit.Business.Symptom;
 import com.example.pixa.medikit.Business.Treatment;
+import com.example.pixa.medikit.Business.Type;
+import com.example.pixa.medikit.Business.TypeList;
 import com.example.pixa.medikit.R;
 
 import java.util.ArrayList;
@@ -20,12 +22,11 @@ import java.util.List;
 
 public class ListDiseases {
     private static final String REF_DISEASE = "Ref Disease";
-    private static final String[] FROM = {"icon", "nameDisease", "valueSymptoms", "valueTreatments"};
-    private static final int[] TO = {R.id.img_icon, R.id.tv_disease, R.id.symptoms, R.id.tv_treatments};
+    private static final String[] FROM = {"icon", "nameDisease", "imgCoeur", "imgCerveau", "imgRespiratoires", "imgMusculaires", "imgDermatologiques", "imgIntestinales", "objet"};
+    private static final int[] TO = {R.id.img_icon, R.id.tv_disease, R.id.imgRespiratoires, R.id.imgCoeur, R.id.imgDermatologiques, R.id.imgIntestinales, R.id.imgMusculaires, R.id.imgCerveau};
 
     private List<HashMap<String, Object>> dataTout;
     private SimpleAdapter adapter;
-
 
     public ListDiseases (Context context, Collection<Disease> diseases) {
         dataTout = new ArrayList<HashMap<String, Object>>(diseases.size());
@@ -34,11 +35,13 @@ public class ListDiseases {
             HashMap<String, Object> map = new HashMap<>();
             map.put(FROM[0], R.drawable.symptomes);
             map.put(FROM[1], d.getName());
-            Symptom symp = d.getSymptoms().getSymptoms().iterator().next();
-            map.put(FROM[2], "Symptômes : " + symp.getName());
-            Treatment treat = d.getTreatments().getTreatments().iterator().next();
-            map.put(FROM[3], "Traitements : " + treat.getName());
-            map.put(REF_DISEASE, d);
+            int i = 2;
+            TypeList types = d.getTypes();
+            for (Type type: types.getTypes()) {
+                map.put(FROM[i], type.getImage(type.getType()));
+                i++;
+            }
+            map.put(FROM[8], d);
             dataTout.add(map);
         }
         adapter = new SimpleAdapter(context, dataTout, R.layout.one_line, FROM, TO);
@@ -50,7 +53,7 @@ public class ListDiseases {
 
     public Disease getDisease(AdapterView<?> parent, int position){
         HashMap<String, Object> hm = (HashMap<String, Object>) parent.getItemAtPosition(position);
-        Disease d = (Disease) hm.get(REF_DISEASE);
+        Disease d = (Disease) hm.get("objet");
         return d;
     }
 }
